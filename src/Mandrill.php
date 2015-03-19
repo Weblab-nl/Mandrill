@@ -500,7 +500,7 @@ class Mandrill {
         }
 
         // send the email and return the send result
-        return $this->mandrill->messages->sendTemplate($this->templateName, array(), $this->options());
+        return $this->mandrill()->messages->sendTemplate($this->templateName, array(), $this->options());
     }
 
     /**
