@@ -116,9 +116,16 @@ class Mandrill {
     /**
      * The Mandrill api instance
      *
-     * @var \Mandrill
+     * @var \Mandrill|null
      */
-    protected $mandrill;
+    protected $mandrill = null;
+
+    /**
+     * The mandrill api key
+     *
+     * @var
+     */
+    protected $key;
 
     /**
      * Constructor
@@ -126,8 +133,8 @@ class Mandrill {
      * @param   string                  The mandrill RESTful API key
      */
     public function __construct($key) {
-        // set the mandrill api access
-        $this->mandrill = new \Mandrill($key);
+        // set the mandrill api key
+        $this->key;
     }
 
     /**
@@ -266,12 +273,18 @@ class Mandrill {
     }
 
     /**
-     * Get the mandrill API instance
+     * Get the mandrill RESTfull API instance, create a new instance if it is not known yet
      *
-     * @return \Mandrill                            The Mandrill api instance
+     * @return Mandrill|null
      */
     public function mandrill() {
-        return $this->mandrill;
+        // if the api instance is known already, return it
+        if (!is_null($this->mandrill)) {
+            return $this->mandrill;
+        }
+
+        // create a new api instance
+        return $this->mandrill = new \Mandrill($this->key);
     }
 
     /**
