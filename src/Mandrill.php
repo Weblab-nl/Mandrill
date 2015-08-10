@@ -134,7 +134,7 @@ class Mandrill {
      */
     public function __construct($key) {
         // set the mandrill api key
-        $this->key;
+        $this->key = $key;
     }
 
     /**
