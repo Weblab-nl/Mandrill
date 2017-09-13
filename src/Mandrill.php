@@ -477,7 +477,7 @@ class Mandrill {
         $this->toAddresses[] = array(
             'name'      => $name,
             'email'     => $email,
-            'type'      => 'to',
+            'type'      => $type,
         );
 
         // return the instance of this, to make chaining possible
