@@ -1,6 +1,6 @@
 {
   "name": "weblabnl/mandrill",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Wrapper to send emails using the default PHP RESTful Mandrill API library",
   "require": {
     	"php": ">=5.3.0",

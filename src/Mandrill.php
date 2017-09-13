@@ -114,6 +114,13 @@ class Mandrill {
     protected $templateName;
 
     /**
+     * The attachments
+     *
+     * @var array
+     */
+    protected $attachments = [];
+
+    /**
      * The Mandrill api instance
      *
      * @var \Mandrill|null
@@ -261,6 +268,15 @@ class Mandrill {
      */
     public function replyTo() {
         return $this->replyTo;
+    }
+
+    /**
+     * Get the attachments
+     *
+     * @return array                The information of every attachment
+     */
+    public function attachments() {
+        return $this->attachments;
     }
 
     /**
@@ -453,9 +469,10 @@ class Mandrill {
      *
      * @param   string                              The name for the to address
      * @param   string                              The email address to send the email to
+     * @param   string                              The type of address to add (to, cc or bcc)
      * @return  \Weblab\Mandrill                    The instance of this, to make chaining possible
      */
-    public function addToAddress($name, $email) {
+    public function addToAddress($name, $email, $type = 'to') {
         // add teh global merge variable
         $this->toAddresses[] = array(
             'name'      => $name,
@@ -490,6 +507,22 @@ class Mandrill {
     public function setTemplate($template) {
         // set the template
         $this->templateName = $template;
+
+        // return the instance of this, to make chaining possible
+        return $this;
+    }
+
+    /**
+     * Add an attachment to the email. An attachment is an array containing 3 fields; content, name and type. The content
+     * is the base64 encoded file to send along the email (example: base64_encode('/path/to/the/attachment')), the name
+     * is the name of the attachment (example: 'test.pdf') and the type (example: 'application/pdf')
+     *
+     * @param   array                               The attachment information
+     * @return  \Weblab\Mandrill                    The instance of this, to make chaining possible
+     */
+    public function addAttachment(array $attachment) {
+        // add the attachment to the list of attachments
+        $this->attachments[] = $attachment;
 
         // return the instance of this, to make chaining possible
         return $this;
@@ -548,12 +581,16 @@ class Mandrill {
             );
         }
 
-        // get the bcc address
-        $bccAddress = $this->bccAddress();
-
         // set the bcc address if set
+        $bccAddress = $this->bccAddress();
         if (!empty($bccAddress)) {
             $settings['bcc_address'] = $bccAddress;
+        }
+
+        // add the attachments if set
+        $attachments = $this->attachments();
+        if (!empty($attachments)) {
+            $settings['attachments'] = $attachments;
         }
 
         // get the campaign name
