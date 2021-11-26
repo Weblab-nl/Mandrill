@@ -1,7 +1,6 @@
 <?php
 namespace Weblab;
 
-use MailchimpTransactional\ApiClient;
 
 /**
  * Helper class to send emails using the Mandrill RESTful API
@@ -125,7 +124,7 @@ class Mandrill {
     /**
      * The Mandrill api instance
      *
-     * @var ApiClient|null
+     * @var \Mandrill|null
      */
     protected $mandrill = null;
 
@@ -293,7 +292,7 @@ class Mandrill {
     /**
      * Get the mandrill RESTfull API instance, create a new instance if it is not known yet
      *
-     * @return ApiClient|null
+     * @return Mandrill|null
      */
     public function mandrill() {
         // if the api instance is known already, return it
@@ -302,7 +301,7 @@ class Mandrill {
         }
 
         // create a new api instance
-        return $this->mandrill = new ApiClient();
+        return $this->mandrill = new \Mandrill($this->key);
     }
 
     /**
